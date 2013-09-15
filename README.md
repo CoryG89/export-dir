@@ -3,29 +3,61 @@ export-dir
 Node.JS module which allows you to require all of the files in an entire
 directory with a single call to `require`.
 
-Usage
-------
-Simply create an index.js file in the directory you want to export with the
-following:
+Rationale
+---------
+The default behavior of the Node.JS `require` function when you give it a
+directory path, for example `require('./mymodules')`, is to look for an
+`index.js` file in the relative directory `mymodules`. 
+
+Example
+-------
+
+That is, it will load `./mymodules/index.js` This is useful, but sometimes
+you kind of wish that it imported all of the scripts in that directory instead.
+
+Suppose I have a directory structure like so:
+
+    -mymodules      // directory
+      * first.js    // contains -- module.exports = { name: 'first' }
+      * second.js   // contains -- module.exports = { name: 'second' }
+      - third       // directory
+        * index.js  // contains -- module.exports = { name: 'third' }
+      - more        // directory
+        * fourth.js // contains -- module.exports = { name: }
+        * fifth.js
+
+I would like to get the following object back when I call
+`require('./mymodules')`:
+
+     {
+        first: {
+            name: 'first'
+        },
+        second: {
+            name: 'second'
+        },
+        third: {
+            name: 'third'
+        },
+        more: {
+            fourth: {
+                name: 'fourth'
+            },
+            fifth: {
+                name: 'fifth'
+            }
+        }
+     }
+
+Usage 
+-----
+
+In order to export an entire directory structure like this you need to place
+an `index.js` file into the directory containing the following:
 
     var exportDir = require('export-dir');
     module.exports = exportDir(__dirname);
 
-When you require the directory containing this `index.js` file it will return 
-an object which has properties for each export in the directory.
-
-Rationale
----------
-The default behavior of the Node.JS `require` function when you give it a
-directory path like `require('./server/routes') is to look for an `index.js`
-file in the relative directory `server/routes`. That is, it will load 
-`./server/routes/index.js` This is useful, but sometimes you kind of wish
-that it imported all of the scripts in that directory instead.
-
-Suppose I have a lot of scripts which define my Express routes in 
-`server/routes`. I would prefer that when I do something like
-
-    var routes = require('./server/routes');
-
-It will return a `routes` object with a property for each of my routes like
-`routes.home`, `routes.signin`, etc.
+In the above example you would need to create an `index.js` file like this in
+both the `./mymodules` directory and in `./mymodules/more` in order to get
+the exported object shown above.
