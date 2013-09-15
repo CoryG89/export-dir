@@ -4,24 +4,29 @@
 var fs = require('fs');
 var path = require('path');
 
-module.exports = function (dirname) {
+module.exports = function (dirname, options) {
+    var exportObject = { };
 
     var paths = fs.readdirSync(dirname).map(function (item) {
         return path.join(dirname, item);
     });
 
+    /** Filter out all unwanted paths, for example index.js files */
     var exportPaths = paths.filter(function (item) {
         var stat = fs.statSync(item);
         var ext = path.extname(item);
         var base = path.basename(item, ext);
 
-        var fileExport = stat.isFile() && ext === '.js' && base !== 'index';
+        var isExtValid = ext === '.js' || ext === '.json';
+        var fileExport = stat.isFile() && isExtValid && base !== 'index';
         var dirExport = stat.isDirectory() && fs.existsSync(item + '/index.js');
+
+        if (options && options.excludeJSON && ext === '.json')
+            return false;
 
         return fileExport || dirExport;
     });
 
-    var exportObject = { };
     exportPaths.forEach(function (exportPath) {
         /** Attempt to import the module at the export path */
         var anExport;
@@ -32,9 +37,11 @@ module.exports = function (dirname) {
         }
 
         /** Attempt to add the module to the export object */
-        var exportName = path.basename(exportPath, '.js');
+        var ext = path.extname(exportPath);
+        var base = path.basename(exportPath, ext);
+
         if (anExport) {
-            exportObject[exportName] = anExport;
+            exportObject[base] = anExport;
         } else {
             console.log('Error exporting [%s]\n', exportPath);
         }
@@ -43,3 +50,4 @@ module.exports = function (dirname) {
 
     return exportObject;
 };
+

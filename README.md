@@ -74,3 +74,18 @@ development dependencies and run the tests using npm please run:
 
     npm install -d
     npm test
+
+API
+-----
+export-dir currently consists of a single function which expects a first
+argument to be a string which points to the path of the directory containing
+modules to be exported. The `path` argument can be input using `__dirname`.
+
+#### exportDir(path, options)
+
+The function may also accept an optional second parameter which is an object
+with properties enabling or disabling options. The currently are shown here:
+
+   // index.js -- do not export any json files in the current directory.
+   module.exports = exportDir(__dirname, { excludeJSON: true });
+

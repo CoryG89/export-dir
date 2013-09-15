@@ -10,6 +10,11 @@ describe('mymodules', function () {
         assert(mymodules, 'mymodules not defined');
     });
 
+    it('should contain config.json data', function () {
+        assert(mymodules.config);
+        assert(mymodules.config.name, 'mymodules');
+    });
+
     it('should contain first module', function () {
         assert(mymodules.first);
         assert(mymodules.first.getName);
@@ -17,13 +22,13 @@ describe('mymodules', function () {
     });
 
     it('should contain second module', function () {
-        assert(mymodules.second, 'mymodules.second not defined');
+        assert(mymodules.second);
         assert(mymodules.second.getName);
         assert.equal(mymodules.second.getName(), 'second');
     });
 
     it('should contain third module', function () {
-        assert(mymodules.third, 'mymodules.third not defined');
+        assert(mymodules.third);
         assert(mymodules.third.getName);
         assert.equal(mymodules.third.getName(), 'third');
     });
@@ -34,6 +39,9 @@ describe('mymodules', function () {
             assert(mymodules.more);
         });
 
+        it('excludeJSON option, should *not* contain config.json', function () {
+            assert.ifError(mymodules.more.config);
+        });
 
         it('should contain fourth module', function () {
             assert(mymodules.more.fourth);
