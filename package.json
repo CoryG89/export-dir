@@ -1,0 +1,30 @@
+{
+  "name": "export-dir",
+  "version": "0.1.0",
+  "description": "Tool to require all files in a single directory in Node.JS",
+  "keywords": ["Require Directory", "Require All", "Export All"],
+  "author": {
+    "name": "Cory Gross",
+    "email": "CoryG89@gmail.com",
+    "url": "http://coryg89.github.io"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CoryG89/export-dir"
+  },
+  "bugs": {
+    "url": "https://github.com/CoryG89/export-dir/issues",
+    "email": "CoryG89@gmail.com"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/CoryG89/export-dir/blob/master/LICENSE.md"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "devDependencies": {
+    "mocha": "1.12.x"
+  }
+}
