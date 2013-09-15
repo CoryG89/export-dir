@@ -11,7 +11,6 @@ directory path, for example `require('./mymodules')`, is to look for an
 
 Example
 -------
-
 That is, it will load `./mymodules/index.js` This is useful, but sometimes
 you kind of wish that it imported all of the scripts in that directory instead.
 
@@ -51,9 +50,14 @@ I would like to get the following object back when I call
 
 Usage 
 -----
+You should include export-dir as a dependency in your `package.json` file, you
+may do so by runnning:
 
-In order to export an entire directory structure like this you need to place
-an `index.js` file into the directory containing the following:
+    npm install export-dir --save
+
+In order to export an entire directory structure like in the example you need to
+place an `index.js` file into the desired directory which contains the following
+lines:
 
     var exportDir = require('export-dir');
     module.exports = exportDir(__dirname);
@@ -61,3 +65,12 @@ an `index.js` file into the directory containing the following:
 In the above example you would need to create an `index.js` file like this in
 both the `./mymodules` directory and in `./mymodules/more` in order to get
 the exported object shown above.
+
+Testing
+-------
+This project uses the mocha module for testing. This dependencies is only for
+development and is not needed for use of export-dir. In order to install the
+development dependencies and run the tests using npm please run:
+
+    npm install -d
+    npm test
