@@ -7,6 +7,8 @@ var path = require('path');
 module.exports = function (dirname, options) {
     var exportObject = { };
 
+    options = options || {};
+
     var paths = fs.readdirSync(dirname).map(function (item) {
         return path.join(dirname, item);
     });
@@ -21,7 +23,7 @@ module.exports = function (dirname, options) {
         var fileExport = stat.isFile() && isExtValid && base !== 'index';
         var dirExport = stat.isDirectory() && fs.existsSync(item + '/index.js');
 
-        if (options && options.excludeJSON && ext === '.json')
+        if (options.excludeJSON && ext === '.json')
             return false;
 
         return fileExport || dirExport;
