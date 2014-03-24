@@ -34,6 +34,8 @@ module.exports = function (dirname, options) {
             anExport = require(exportPath);
         } catch (error) {
             console.log('Error exporting [%s]\n\n\t[%s]', exportPath, error);
+      	    if(options.failHard)
+      	        throw error;
         }
 
         /** Attempt to add the module to the export object */
@@ -50,4 +52,3 @@ module.exports = function (dirname, options) {
 
     return exportObject;
 };
-
