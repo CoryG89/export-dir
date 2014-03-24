@@ -107,4 +107,4 @@ Options
 #### excludeJSON (default false)
 Ignores all files that end in *.json
 #### failHard (default false)
-If the a require fails for any reason, the entire export fails.
+Halts went requiring any file fails. This is good for detecting syntax errors.
