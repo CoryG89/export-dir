@@ -7,7 +7,7 @@ Rationale
 ---------
 The default behavior of the Node.JS `require` function when you give it a
 directory path, for example `require('./mymodules')`, is to look for an
-`index.js` file in the relative directory `mymodules`. 
+`index.js` file in the relative directory `mymodules`.
 
 That is, it will load `./mymodules/index.js` This is useful, but sometimes
 you kind of wish that it imported all of the scripts in that directory instead.
@@ -27,9 +27,9 @@ Suppose I have a directory structure like so:
         * fifth.js  // contains -- module.exports = { name: 'fifth' }
 
 The default behavior of Node.JS when you call `require` on `mymodules` would be
-to only load `index.js`. You could fix this by having `index.js` import all of 
+to only load `index.js`. You could fix this by having `index.js` import all of
 its sibling files and directories, but everytime you add or remove a file you
-would have to go back update this `index.js`. 
+would have to go back update this `index.js`.
 
 Sometimes I would like to be able to call `require` on `mymodules` and have it
 return an object such as below with properties for each of the modules it
@@ -56,7 +56,7 @@ remove something from `mymodules`.
         }
      }
 
-Usage 
+Usage
 -----
 You should include export-dir as a dependency in your `package.json` file, you
 may do so by runnning:
@@ -101,5 +101,10 @@ The function may also accept an optional second parameter which is an object
 with properties enabling or disabling options. The currently are shown here:
 
    // index.js -- do not export any json files in the current directory.
-   module.exports = exportDir(__dirname, { excludeJSON: true });
-
+   module.exports = exportDir(__dirname, { excludeJSON: true, failHard: true });
+Options
+-----
+#### excludeJSON (default false)
+Ignores all files that end in *.json
+#### failHard (default false)
+Halts went requiring any file fails. This is good for detecting syntax errors.
